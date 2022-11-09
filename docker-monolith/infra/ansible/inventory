@@ -1,2 +1,2 @@
 [dock] # ⬅ Это название группы
-docker_host ansible_host=35.241.190.188
+docker_host ansible_host=34.77.104.148
