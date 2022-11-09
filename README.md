@@ -18,4 +18,11 @@ $ docker system df - информация о дисковом пространс
 $ docker inspect <id> - подробная информация об объекте docker.
 ```
 
+## HW 15(docker-2)
+
+В данной работе мы:
+создали docker host;
+описали Dockerfile;
+опубликовали Dockerfile на Docker Hub;
+подготовили прототип автоматизации деплоя приложения в связке Terraform + Ansible
 
