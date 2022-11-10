@@ -3,4 +3,4 @@
 *.tfstate.*.backup
 *.tfstate.backup
 *.tfvars
-.terraform/
+/docker-monolith/infra/terraform/.terraform/
