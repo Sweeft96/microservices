@@ -10,7 +10,7 @@ services:
     build: ./ui
     image: ${USERNAME}/ui:${VERSION}
     ports:
-      - ${PORT}:/tcp
+      - 9292:9292/tcp
     networks:
       - front_net
   post:
