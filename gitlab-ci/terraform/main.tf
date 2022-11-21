@@ -12,16 +12,17 @@ provider "google" {
   region  = var.region
 }
 
-resource "google_compute_instance" "app" {
-  name         = "docker-host"
-  machine_type = "g1-small"
+resource "google_compute_instance" "git" {
+  name         = "gitlab-host"
+  machine_type = "e2-medium"
   zone         = var.zone
-  tags         = ["docker-host"]
+  tags         = ["gitlab-host"]
 
   # определение загрузочного диска
   boot_disk {
     initialize_params {
       image = "ubuntu-1804-lts"
+      size  = "50"
     }
   }
 
@@ -40,33 +41,31 @@ resource "google_compute_instance" "app" {
   }
 
   connection {
-    type  = "ssh"
-    user  = "sweeft"
-    agent = false
-    host = "network_interface.0.access_config.0.nat_ip"
+    type        = "ssh"
+    user        = "sweeft"
+    agent       = false
+    host        = "network_interface.0.access_config.0.nat_ip"
     # путь до приватного ключа
     private_key = "sweeft:${file(var.private_key_path)}"
   }
-
-#  provisioner "file" {
-#    source      = "files/puma.service"
-#    destination = "/tmp/puma.service"
-#  }
-#
-#  provisioner "remote-exec" {
-#    script = "files/deploy.sh"
-#  }
 }
 
 resource "google_compute_firewall" "firewall_puma" {
-  name = "allow-puma-default"
+  name = "http-https"
 
   # Название сети, в которой действует правило
   network = "default"
-
-  # Какой доступ разрешить
   allow {
     protocol = "tcp"
-    ports    = ["9292"]
+    ports    = ["80", "443"]
   }
 }
+ # allow {
+ #   ports = ["80"]
+ #   protocol = "tcp"
+ # }
+ #allow{
+ #   ports = ["443"]
+ #   protocol = "tcp"
+ # }
+#}

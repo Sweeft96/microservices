@@ -1,6 +1,6 @@
 ---
 - name: Install python and docker
-  hosts: docker_host
+  hosts: gitlab-host
   become: true
   tasks:
   - name: add docker GPG key
@@ -30,11 +30,27 @@
 
   - name: install 'Docker SDK for Python'
     pip:
-      name: docker
+      name:
+       - docker
+       - docker-compose
 
-  - name: Create a container with app
-    docker_container:
-      name: app
-      image: "danilkuch/otus-reddit:1.0"
-      ports:
-        - "9292:9292"
+  - name: create a directory
+    ansible.builtin.file:
+      path: "/srv/gitlab/{{item}}"
+      state: directory
+      mode: 0755
+    with_items:
+     - config
+     - logs
+     - data
+
+  - name: Copy file with owner and permissions
+    ansible.builtin.copy:
+      src: ../docker-compose.yml
+      dest: /srv/gitlab/
+
+  - name: deploy Docker Compose stack
+    community.docker.docker_compose:
+      project_src: /srv/gitlab/
+      files:
+        - docker-compose.yml
