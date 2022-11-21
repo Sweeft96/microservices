@@ -5,3 +5,4 @@
 *.tfvars
 /docker-monolith/infra/terraform/.terraform/
 ./.idea
+*/.terraform
