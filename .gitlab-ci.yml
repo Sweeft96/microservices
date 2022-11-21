@@ -29,7 +29,7 @@ test_integration_job:
   script:
     - echo 'Testing 2'
 
-deploy_job:
+rewiev_job:
   stage: deploy
   script:
     - echo 'Deploy'
