@@ -50,6 +50,16 @@ services:
     networks:
       - front_net
       - back_net
+
+  mongodb_exporter:
+    image: percona/mongodb_exporter:0.20
+    ports:
+      - '9216:9216'
+    environment:
+      - MONGODB_URI=mongodb://post_db:27017
+    networks:
+      - back_net
+
 volumes:
   prometheus_data:
   post_db:

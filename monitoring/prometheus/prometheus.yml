@@ -21,3 +21,7 @@ scrape_configs:
     static_configs:
       - targets:
           - 'node-exporter:9100'
+  - job_name: 'percona'
+    static_configs:
+      - targets:
+          - 'mongodb_exporter:9216'
