@@ -6,6 +6,14 @@ services:
       - post_db:/data/db
     networks:
       - back_net
+
+  comment_db:
+    image: mongo:3.2
+    volumes:
+      - comment_db:/data/db
+    networks:
+      - back_net
+
   ui:
     image: ${USERNAME}/ui
     ports:
@@ -22,47 +30,10 @@ services:
     networks:
       - front_net
       - back_net
-  prometheus:
-    image: ${USERNAME}/prometheus
-    ports:
-      - '9090:9090'
-    volumes:
-      - prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention=1d'
-    networks:
-      - front_net
-      - back_net
-
-  node-exporter:
-    image: prom/node-exporter:v0.15.2
-    user: root
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
-    networks:
-      - front_net
-      - back_net
-
-  mongodb_exporter:
-    image: percona/mongodb_exporter:0.20
-    ports:
-      - '9216:9216'
-    environment:
-      - MONGODB_URI=mongodb://post_db:27017
-    networks:
-      - back_net
 
 volumes:
-  prometheus_data:
   post_db:
+  comment_db:
 
 networks:
   front_net:
