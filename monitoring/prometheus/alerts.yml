@@ -9,3 +9,19 @@ groups:
         annotations:
           description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute'
           summary: 'Instance {{ $labels.instance }} down'
+
+      - alert: LoadAverage5minutes
+        expr: node_load5 / count by (instance, job) (node_cpu{mode="idle"}) >= 0.95
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Load average is high for 5 minutes (instance {{ $labels.instance }})"
+          description: "Load is high \n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+      - alert: HighUsage
+        expr: avg(irate(node_cpu{mode="idle"}[1m]) * 100) < 80
+        for: 1m
+        annotations:
+          summary: "High usage on {{ $labels.instance }}"
+          description: "{{ $labels.instance }} has a average CPU idle (current value: {{ $value }}s)"
