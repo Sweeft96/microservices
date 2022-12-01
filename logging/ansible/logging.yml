@@ -31,8 +31,8 @@
   - name: install 'Docker SDK for Python'
     pip:
       name:
-       - docker
-       - docker-compose
+      - docker
+      - docker-compose
 
   - name: create a directory
     ansible.builtin.file:
