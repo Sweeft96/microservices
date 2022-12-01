@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - back_net
+      - front_net
+
+  fluentd:
+    image: danilkuch/fluentd
+    volumes:
+      - /srv/logging/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      - back_net
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
+    expose:
+      - "9200"
+    ports:
+      - "9200:9200"
+    networks:
+      - back_net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.1
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+    networks:
+      - back_net
+
+networks:
+  back_net:
+  front_net:

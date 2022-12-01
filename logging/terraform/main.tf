@@ -13,16 +13,15 @@ provider "google" {
 }
 
 resource "google_compute_instance" "git" {
-  name         = "gitlab-host"
-  machine_type = "e2-medium"
+  name         = "logging"
+  machine_type = "e2-standard-2"
   zone         = var.zone
-  tags         = ["gitlab-host"]
+  tags         = ["logging"]
 
   # определение загрузочного диска
   boot_disk {
     initialize_params {
       image = "ubuntu-1804-lts"
-      size  = "50"
     }
   }
 
@@ -51,12 +50,14 @@ resource "google_compute_instance" "git" {
 }
 
 resource "google_compute_firewall" "firewall_puma" {
-  name = "http-https"
+  name = "logging"
 
   # Название сети, в которой действует правило
   network = "default"
   allow {
     protocol = "tcp"
-    ports    = ["80", "443"]
+    ports    = ["9292", "5601", "9411", "9200","80"]
   }
+
 }
+
