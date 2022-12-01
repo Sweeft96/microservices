@@ -1,0 +1,2 @@
+[logging] # ⬅ Это название группы
+logging ansible_host=35.241.130.156
