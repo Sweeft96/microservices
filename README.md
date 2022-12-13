@@ -88,3 +88,15 @@ $ docker inspect <id> - подробная информация об объек�
 * развернули Kubernetes в GKE;
 * запустили reddit в Kubernetes;
 * подготовили конфигурацию terraform для поднятия Kubernetes-кластера в GKE.
+
+## HW#24 (kubernetes-3)
+В данной работе мы:
+
+* Ingress Controller
+* Ingress
+* Secret
+* TLS
+* LoadBalancer Service
+* Network Policies
+* PersistentVolumes
+* PersistentVolumeClaims
